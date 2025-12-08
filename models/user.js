@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-    },
-    password: {
-      type: String,
-      required: true,
       minlength: 6,
+    },
+    favorites: {
+      type: [String], // ou ObjectId se você tiver um model Card
+      default: [],
     },
   },
   { timestamps: true }

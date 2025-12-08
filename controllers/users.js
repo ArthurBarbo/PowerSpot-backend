@@ -91,3 +91,33 @@ export const getUserData = async (req, res) => {
     res.status(500).json({ message: "Erro ao buscar usuário" });
   }
 };
+
+export const updateUserName = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name || name.trim() === "") {
+      return res.status(400).json({ message: "Nome inválido" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { name },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    return res.status(200).json({
+      message: "Nome atualizado com sucesso",
+      user,
+    });
+  } catch (err) {
+    console.error("Erro ao atualizar nome:", err);
+    return res
+      .status(500)
+      .json({ message: "Erro interno ao atualizar o nome" });
+  }
+};
