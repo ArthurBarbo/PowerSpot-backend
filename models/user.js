@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
     },
     favorites: {
-      type: [String], // ou ObjectId se você tiver um model Card
+      type: [String],
       default: [],
     },
   },

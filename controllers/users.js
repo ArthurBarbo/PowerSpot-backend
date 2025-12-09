@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { registerSchema, loginSchema } from "../middlewares/userValidator.js";
+import { updateNameSchema } from "../middlewares/userValidator.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -94,11 +95,12 @@ export const getUserData = async (req, res) => {
 
 export const updateUserName = async (req, res) => {
   try {
-    const { name } = req.body;
-
-    if (!name || name.trim() === "") {
-      return res.status(400).json({ message: "Nome inválido" });
+    const { error } = updateNameSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
     }
+
+    const { name } = req.body;
 
     const user = await User.findByIdAndUpdate(
       req.userId,
