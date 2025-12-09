@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { registerSchema, loginSchema } from "../middlewares/userValidator.js";
+import { updateNameSchema } from "../middlewares/userValidator.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -89,5 +90,36 @@ export const getUserData = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Erro ao buscar usuário" });
+  }
+};
+
+export const updateUserName = async (req, res) => {
+  try {
+    const { error } = updateNameSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const { name } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { name },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    return res.status(200).json({
+      message: "Nome atualizado com sucesso",
+      user,
+    });
+  } catch (err) {
+    console.error("Erro ao atualizar nome:", err);
+    return res
+      .status(500)
+      .json({ message: "Erro interno ao atualizar o nome" });
   }
 };
