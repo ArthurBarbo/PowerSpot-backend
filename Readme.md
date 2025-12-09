@@ -42,26 +42,20 @@ ESLint (linting)
 Instalação
 Clone o repositório:
 
-bash
-Copiar código
 git clone https://github.com/ArthurBarbo/PowerSpot-backend
 cd PowerSpot-backend
-Instale as dependências:
 
-bash
-Copiar código
+Instale as dependências:
 npm install
 Crie um arquivo .env com as variáveis de ambiente necessárias:
 
-env
-Copiar código
+.env
 PORT=3001
 MONGO_URI=<sua_string_mongodb>
 JWT_SECRET=<seu_segredo_jwt>
-Inicie o servidor:
 
-bash
-Copiar código
+
+Inicie o servidor:
 npm run dev
 Endpoints
 Usuários
@@ -92,6 +86,5 @@ User – Armazena name, email, password e favorites (referências para pontos de
 Linting
 Para rodar o ESLint:
 
-bash
-Copiar código
 npx eslint .
+
