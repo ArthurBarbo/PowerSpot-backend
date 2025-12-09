@@ -1,0 +1,85 @@
+# PowerSpot Backend
+
+Backend do projeto PowerSpot, responsável por gerenciar usuários, autenticação e favoritos de **pontos de recarga próximos ao usuário**.
+
+## Estrutura do Projeto
+
+├── .editorconfig
+├── .env
+├── .eslintrc
+├── .gitignore
+├── controllers
+│ ├── favorites.js
+│ └── users.js
+├── middlewares
+│ ├── auth.js
+│ └── userValidator.js
+├── models
+│ └── user.js
+├── package.json
+├── routes
+│ ├── favorite.js
+│ └── user.js
+└── server.js
+
+## Tecnologias
+
+- Node.js
+- Express
+- MongoDB (Mongoose)
+- JWT (autenticação)
+- Joi (validação de dados)
+- ESLint (linting)
+
+## Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd PowerSpot-backend
+Instale as dependências:
+
+
+npm install
+Crie um arquivo .env com as variáveis de ambiente necessárias:
+
+PORT=3001
+MONGO_URI=<sua_string_mongodb>
+JWT_SECRET=<seu_segredo_jwt>
+
+
+Inicie o servidor:
+npm run dev
+
+
+Estrutura de Endpoints
+Usuários
+POST /users/register – Registrar usuário
+
+POST /users/login – Login de usuário
+
+GET /users/me – Retornar dados do usuário autenticado
+
+PATCH /users/edit-name – Atualizar nome do usuário
+
+Favoritos
+GET /favorites – Listar favoritos do usuário, que são pontos de recarga próximos à localização atual.
+
+POST /favorites – Adicionar ou remover um favorito (somente pontos próximos renderizados via Api).
+
+Observação: Todos os endpoints que exigem autenticação devem receber o header Authorization: Bearer <token>.
+
+Middleware
+auth.js – Valida JWT e adiciona req.userId
+
+userValidator.js – Valida dados do usuário com Joi
+
+Models
+User – Armazena name, email, password e favorites (referências para pontos de recarga próximos ao usuário)
+
+Linting
+Para rodar o ESLint:
+
+npx eslint .
+```

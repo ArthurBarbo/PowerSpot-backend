@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      match: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
     },
     password: {
       type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model('User', userSchema);
