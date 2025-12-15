@@ -1,10 +1,10 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
 
-import userRoutes from './routes/user.js';
-import favoriteRoutes from './routes/favorite.js';
+import userRoutes from "./routes/user.js";
+import favoriteRoutes from "./routes/favorite.js";
 
 dotenv.config();
 
@@ -13,21 +13,37 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
-  }),
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
 );
 app.use(express.json());
 
-app.use('/users', userRoutes);
-app.use('/favorites', favoriteRoutes);
+app.use("/users", userRoutes);
+app.use("/favorites", favoriteRoutes);
 
-mongoose
-  .connect(process.env.MONGO_URI, {})
-  .then(() => console.log('MongoDB conectado'))
-  .catch((err) => console.error('Erro ao conectar no MongoDB:', err));
+app.use((err, req, res, next) => {
+  console.error(err);
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  res.status(err.status || 500).json({
+    message: err.message || "Erro interno no servidor",
+  });
 });
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB conectado");
+
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Erro ao conectar no MongoDB:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;
