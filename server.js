@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "api.powerspot.rude.li",
+    origin: process.env.CORS_ORIGIN || "https://api.powerspot.rude.li",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
